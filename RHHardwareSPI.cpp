@@ -68,18 +68,11 @@ uint8_t RHHardwareSPI::spiBurstWrite(uint8_t reg, const uint8_t* src, uint8_t le
 }
 #endif
 
-void RHHardwareSPI::attachInterrupt() 
-{
-#if (RH_PLATFORM == RH_PLATFORM_ARDUINO || RH_PLATFORM == RH_PLATFORM_NRF52)
-    SPI.attachInterrupt();
-#endif
+void RHHardwareSPI::attachInterrupt() {
 }
 
-void RHHardwareSPI::detachInterrupt() 
-{
-#if (RH_PLATFORM == RH_PLATFORM_ARDUINO || RH_PLATFORM == RH_PLATFORM_NRF52)
-    SPI.detachInterrupt();
-#endif
+void RHHardwareSPI::detachInterrupt() {
+
 }
     
 void RHHardwareSPI::begin() 
@@ -130,8 +123,8 @@ void RHHardwareSPI::begin()
 	dataMode = SPI_MODE0;
 
     // Save the settings for use in transactions
-   _settings = SPISettings(frequency, bitOrder, dataMode);
-   SPI.begin();
+   _settings = SPISettings(frequency, static_cast<uint8_t>(bitOrder), dataMode);
+    SPI.begin();
     
 #else // SPI_HAS_TRANSACTION
     
